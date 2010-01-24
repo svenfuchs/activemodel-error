@@ -19,3 +19,7 @@ class Test::Unit::TestCase
     end
   end
 end
+
+class CascadingBackend < I18n::Backend::Simple
+  include I18n::Backend::Cascade
+end

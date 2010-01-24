@@ -1,60 +1,51 @@
 require 'i18n'
 require 'i18n/core_ext/string/interpolate'
 
+# add a module for gettext-style class level messages, i.e. resolve string 
+# messages by translating them
+
 class Message
-  class << self
-    def cascade
-      @@cascade ||= false
-    end
+  autoload :Cascade,  'message/cascade'
+  autoload :Gettext,  'message/gettext'
+  autoload :Variants, 'message/variants'
 
-    def cascade=(cascade)
-      @@cascade = cascade
-    end
+  attr_reader :type, :message, :values, :options
+
+  def initialize(type, message = {}, values = {}, options = {})
+    @type, @message, @values, @options = type, message, values, options
   end
 
-  attr_reader :type, :message, :options
+  def to_s(variant = nil)
+    message = message_for(variant)
+    resolve(message, variant)
+  end
 
-  def initialize(type, message = {}, options = {})
-    @type    = type
-    @message = message
-    @options = { :raise => true }.merge(options)
-    @values.update(:cascade => true) if self.class.cascade
-  end
-  
-  def to_s(format = :short, values = {})
-    message = lookup(format)
-    case message
-    when String
-      # could add a :translate_strings option here to support gettext-style class-method calls
-      interpolate(message, values) 
-    when Symbol
-      translate(message, format, values)
-    else
-      translate(type, format, values)
-    end
-  rescue I18n::MissingTranslationData => e
-    format != :short ? to_s(:short, values) : raise(e)
-  end
-  
-  def method_missing(method)
-    to_s(method)
-  end
-  
   protected
-  
-    def lookup(format)
+
+    def message_for(variant)
+      message
+    end
+
+    def resolve(message, variant)
       case message
-      when String, Symbol; message
-      when Hash;           message[format]
+      when String
+        interpolate(message)
+      when Symbol
+        translate(message, variant)
+      else
+        translate(type, variant)
       end
     end
 
-    def interpolate(message, values)
+    def interpolate(message)
       message % values
     end
 
-    def translate(message, format, values)
-      options = self.options.merge(:default => [:"#{message}.short", message])
-      I18n.t(:"#{message}.#{format}", options.merge(values))
+    def translate(message, variant)
+      I18n.t(message, translate_options)
+    end
+  
+    def translate_options
+      @translate_options ||= { :raise => true }.merge(self.options).merge(values)
     end
 end

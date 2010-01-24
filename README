@@ -18,9 +18,10 @@ Requirements:
 - Symbols in class method calls should be treated as translation keys.
 - Use values from class method calls consistently with translation keys that 
   are implicitly built for a validation.
-- Different formats (such as :full_message) for the same error should be 
-  possible.
+- Different translation variants (such as :full_message) for the same message
+  should be possible.
 - Translation calls should optionally be able to cascade over scopes if 
   requested by the user.
+- Support format strings, e.g. "{{attribute}} {{message}}" (not done)
 
 See the tests, especially validation_test.rb

@@ -1,14 +1,32 @@
 require 'message'
 
 class Error < Message
-  attr_reader :type, :values
-  
-  def initialize(type, model, attribute, message = nil, options = {})
-    super(type, message || type, options)
-    @values = { :model => model, :attribute => attribute, :scope => [:errors, model.downcase, attribute] }
+  attr_reader :model, :attribute
+
+  def initialize(type, model, attribute, message = nil, values = {}, options = {})
+    @model, @attribute = model, attribute
+    super(type, message || type, values, options)
   end
 
-  def to_s(format = :short, values = {})
-    super(format, self.values.merge(values))
+  def to_s(format = :short)
+    super(format)
   end
+
+  protected
+
+    def values
+      super.merge(:model => model, :attribute => attribute)
+    end
+
+    def options
+      super.merge(:scope => scope)
+    end
+
+    def scope
+      if self.class.included_modules.include?(Cascade)
+        [:errors, :messages, :models, model.downcase, :attributes, attribute]
+      else
+        [:errors, :messages]
+      end
+    end
 end
