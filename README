@@ -1,0 +1,26 @@
+# Proposal: validation error messages in ActiveModel
+
+This stuff is a very rough draft of how I propose to deal with validation
+error messages (and potentially other usecases that need I18n support, such as 
+form labels).
+
+It might go into Rails or end up in some plugin or gem.
+
+I'm not looking at the actual integration to ActiveModel, yet. So far I'm just 
+trying to sketch out the underlying stuff so that it covers all requirements 
+in a consistent way.
+
+Requirements:
+
+- Strings in class method calls should be treated as plain text by default
+  (might optionally want to treat them as translation keys for gettext-style
+  class method calls if requested by the user).
+- Symbols in class method calls should be treated as translation keys.
+- Use values from class method calls consistently with translation keys that 
+  are implicitly built for a validation.
+- Different formats (such as :full_message) for the same error should be 
+  possible.
+- Translation calls should optionally be able to cascade over scopes if 
+  requested by the user.
+
+See the tests, especially validation_test.rb
