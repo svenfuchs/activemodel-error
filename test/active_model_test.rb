@@ -1,13 +1,20 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
-require 'error'
 
 $:.unshift('~/Development/shared/rails/rails-master/activemodel/lib')
+$:.unshift('~/Development/shared/rails/rails-master/activesupport/lib')
+
 require 'active_model'
+require 'active_support/core_ext/class/attribute_accessors'
+require 'error'
 
 class ActiveModel::Errors
+  cattr_accessor :error_class
+  @@error_class = Error
+
   def generate_message(attribute, type = :invalid, options = {})
-    Error.new(type, @base.class.name, attribute.to_s, options.delete(:default), options)
+    options.update(:model => @base.class.name, :attribute => attribute)
+    error_class.new(type, options.delete(:default), options)
   end
 end
 
@@ -16,28 +23,31 @@ class Model
   attr_reader :foo
 end
 
-class Error
-  include Message::Cascade
-  include Message::Variants
-end
-
 class ActiveModelValidationMessageTest < Test::Unit::TestCase
+  class Error < ::Error
+    def self.name; 'Error' end
+    include Message::Cascade
+    include Message::Variants
+  end
+
   def setup
     I18n.backend  = CascadingBackend.new
     I18n.backend.send(:init_translations) # so our translations won't be overwritten by Rails
+    ActiveModel::Errors.error_class = Error
   end
-  
+
   def teardown
     I18n.backend  = nil
     Model.reset_callbacks(:validate)
+    ActiveModel::Errors.error_class = ::Error
   end
-  
+
   def model
     model = Model.new
     model.valid?
     model
   end
-  
+
   def store_translations(data)
     I18n.backend.store_translations(:en, data)
   end
@@ -81,7 +91,7 @@ class ActiveModelValidationMessageTest < Test::Unit::TestCase
     assert_equal "short", model.errors[:foo].first.to_s(:short)
     assert_equal "full", model.errors[:foo].first.to_s(:full)
   end
-  
+
   test "uses a translation from an attribute namespace" do
     Model.validates_presence_of :foo
     store_translations(:'errors.messages.models.model.attributes.foo.blank' => 'message')

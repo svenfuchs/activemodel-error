@@ -1,18 +1,14 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class MessageWithGettext < Message
-  include Message::Gettext
-end
-
 class MessageGettextTest < Test::Unit::TestCase
-  def message(*args)
-    MessageWithGettext.new(*args)
+  class Message < ::Message
+    include Message::Gettext
   end
-  
-  test "message is a String, will be translated" do
-    I18n.backend.store_translations(:en, 'Message' => 'The message')
-    assert_equal 'The message', message(:blank, 'Message').to_s
+
+  test "Message.new is a String, will be translated" do
+    I18n.backend.store_translations(:en, 'Message' => 'The Message.new')
+    assert_equal 'The Message.new', Message.new(:blank, 'Message').to_s
   end
   
 end
