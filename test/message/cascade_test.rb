@@ -1,11 +1,8 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
-require 'error'
 
 class MessageWithCascade < Message
-  CASCADE_OPTIONS = { :step => 2, :skip_root => true }
   include Cascade
-
   def options
     super.merge(:scope => :'errors.messages.models.model.attributes.attribute')
   end

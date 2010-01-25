@@ -6,9 +6,12 @@ form labels).
 
 It might go into Rails or end up in some plugin or gem.
 
-I'm not looking at the actual integration to ActiveModel, yet. So far I'm just 
-trying to sketch out the underlying stuff so that it covers all requirements 
-in a consistent way.
+I'm not looking so much at the actual integration to ActiveModel, yet. So far
+I'm just trying to sketch out the underlying stuff so that it covers all
+requirements in a consistent way.
+
+I want this stuff to be re-usable in other places where similar patterns occur
+when it comes to I18n, such as form labels and potentially other stuff.
 
 Requirements:
 
@@ -22,6 +25,6 @@ Requirements:
   should be possible.
 - Translation calls should optionally be able to cascade over scopes if 
   requested by the user.
-- Support format strings, e.g. "{{attribute}} {{message}}" (not done)
+- Support format strings, e.g. "{{attribute}} {{message}}"
 
-See the tests, especially validation_test.rb
+See the tests, especially active_model_test.rb
