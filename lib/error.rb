@@ -1,6 +1,8 @@
 require 'message'
 
 class Error < Message
+  CASCADE_OPTIONS = { :step => 2, :skip_root => true }
+
   attr_reader :model, :attribute
 
   def initialize(type, model, attribute, message = nil, values = {}, options = {})
