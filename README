@@ -1,5 +1,7 @@
 # Proposal: validation error messages in ActiveModel
 
+(requires I18n current master)
+
 This stuff is a very rough draft of how I propose to deal with validation
 error messages (and potentially other usecases that need I18n support, such as 
 form labels).
