@@ -6,10 +6,11 @@ class MessageFormattedTest < Test::Unit::TestCase
   class Message < ::Message
     include Formatted
   end
-
-  test "uses a full message format to wrap a short message" do
-    I18n.backend.store_translations(:en, :'blank' => 'blank')
-    I18n.backend.store_translations(:en, :'errors.formats.full' => 'something {{message}}')
-    assert_equal "something blank", Message.new(:blank, nil).to_s(:full)
+  
+  def setup
+    store_translations(:'errors.formats' => { :short => '{{message}}', :full => 'full {{message}}' })
   end
+
+  include Behavior::Message::Common
+  include Behavior::Formatted
 end

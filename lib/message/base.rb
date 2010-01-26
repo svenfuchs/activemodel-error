@@ -19,7 +19,7 @@ class Message
       def resolve(message, variant)
         case message
         when String
-          interpolate(message)
+          interpolate(message, variant)
         when Symbol
           translate(message, variant)
         else
@@ -27,7 +27,7 @@ class Message
         end
       end
 
-      def interpolate(message)
+      def interpolate(message, variant)
         message % values
       end
 

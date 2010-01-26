@@ -48,10 +48,6 @@ class ActiveModelValidationMessageTest < Test::Unit::TestCase
     model
   end
 
-  def store_translations(data)
-    I18n.backend.store_translations(:en, data)
-  end
-
   test "uses a class level String message" do
     Model.validates_presence_of :foo, :message => 'message'
     assert_equal "message", model.errors[:foo].first.to_s

@@ -5,10 +5,16 @@ class MessageGettextTest < Test::Unit::TestCase
   class Message < ::Message
     include Message::Gettext
   end
-
-  test "Message.new is a String, will be translated" do
-    I18n.backend.store_translations(:en, 'Message' => 'The Message.new')
-    assert_equal 'The Message.new', Message.new(:blank, 'Message').to_s
+  
+  def setup
+    store_translations(
+      :foo      => 'foo',
+      :message  => 'message',
+      :'%{foo}' => '%{foo}'
+    )
   end
   
+  include Behavior::Message::Common
+  include Behavior::Message::NonFormatted
+  include Behavior::Gettext
 end

@@ -5,30 +5,25 @@ class MessageCascadeTest < Test::Unit::TestCase
   class Message < ::Message
     include Cascade
     def options
-      super.merge(:scope => :'errors.messages.models.model.attributes.attribute')
+      super.merge(:scope => :'models.model.attributes.attribute') 
     end
   end
 
   def setup
     I18n.backend  = CascadingBackend.new
+    Message.cascade_options = { :step => 2, :skip_root => false }
   end
-
-  def teardown
-    I18n.backend  = nil
-  end
-
-  test "returns message from attribute scope" do
-    I18n.backend.store_translations(:en, :'errors.messages.models.model.attributes.attribute.message' => 'message')
-    assert_equal 'message', Message.new(:message).to_s
-  end
-
-  test "returns message from model scope" do
-    I18n.backend.store_translations(:en, :'errors.messages.models.model.message' => 'message')
-    assert_equal 'message', Message.new(:message).to_s
-  end
-
-  test "returns message from errors scope" do
-    I18n.backend.store_translations(:en, :'errors.messages.message' => 'message')
-    assert_equal 'message', Message.new(:message).to_s
-  end
+  
+  include Behavior::Message::Common
+  include Behavior::Message::NonFormatted
+  include Behavior::Cascade
 end
+
+class MessageCascadeVariantsTest < MessageCascadeTest
+  class Message < MessageCascadeTest::Message
+    include Variants
+  end
+
+  include Behavior::Variants
+end
+
