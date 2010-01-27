@@ -1,28 +1,32 @@
-class Message
-  module Formatted
-    # TODO no tests breaks when this method is removed
-    def interpolate(message, variant)
-      message = super
-      variant ? format(message, variant) : message
-    end
+require 'active_support/core_ext/class/attribute_accessors'
 
-    def translate(message, variant)
-      message = super
-      variant ? format(message, variant) : message
+class Message
+  # Encapsulates the pattern of wrapping a message with a format string.
+  #
+  module Formatted
+    def self.included(base)
+      base.class_eval do
+        cattr_accessor :format_class
+        self.format_class = Format
+      end
     end
     
-    def format(message, variant)
-      values  = self.values.merge(:message => super)
-      options = self.options.merge(:scope => scope)
-      Message.new(variant, nil, values, options).to_s
+    attr_reader :format
+
+    def initialize(type, message = nil, values = {}, options = {})
+      @format = options.delete(:format)
+      super
     end
 
-    def scope
-      if self.class.included_modules.include?(Cascade)
-        :"errors.formats.models.#{model.downcase}.attributes.#{attribute}"
-      else
-        :'errors.formats'
-      end
+    def resolve(message, variant = nil)
+      format || variant ? formatted(super, variant) : super
+    end
+
+    def formatted(message, variant = nil)
+      values = self.values.merge(:message => message)
+      format_class.new(variant, format, values, options).to_s(variant)
+    rescue ArgumentError
+      message # rescues Message::MissingMessageData and I18n::MissingTranslationData
     end
   end
 end

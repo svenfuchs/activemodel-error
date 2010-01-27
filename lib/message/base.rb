@@ -1,42 +1,35 @@
 class Message
+  # Encapsulates the pattern of using a plain String message (as in 
+  # validates_presence_of :email, :message => "can't be blank") and 
+  # interpolating given values to the resulting string.
+  #
   module Base
-    attr_reader :type, :message, :values, :options
+    attr_reader :type, :message, :values, :options, :scope
 
     def initialize(type, message = nil, values = {}, options = {})
       @type, @message, @values, @options = type, message, values, options
+      @values  ||= {}
+      @options ||= {}
     end
 
     def to_s(variant = nil)
-      resolve(message_for(variant), variant)
+      resolve(message, variant)
     end
 
     protected
 
-      def message_for(variant)
-        message
+      def resolve(message, variant = nil)
+        interpolate(message, variant)
       end
 
-      def resolve(message, variant)
-        case message
-        when String
-          interpolate(message, variant)
-        when Symbol
-          translate(message, variant)
-        else
-          translate(type, variant)
-        end
+      def interpolate(message, variant = nil)
+        message ? message % values : raise(MissingMessageData.new(self))
       end
-
-      def interpolate(message, variant)
-        message % values
-      end
-
-      def translate(message, variant)
-        I18n.t(message, translate_options)
-      end
+  end
   
-      def translate_options
-        @translate_options ||= { :raise => true }.merge(options).merge(values)
-      end
+  class MissingMessageData < ArgumentError
+    def initialize(message)
+      @message = message
+    end
   end
 end

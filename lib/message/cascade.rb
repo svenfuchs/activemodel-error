@@ -1,24 +1,27 @@
+require 'active_support/core_ext/class/attribute_accessors'
+
 class Message
+  # Encapsulates the pattern of looking a translated message up from several
+  # scopes.
+  #
   module Cascade
-    class << self
-      def included(base)
-        base.extend(ClassMethods)
+    def self.included(base)
+      base.class_eval do
+        cattr_accessor :cascade_options
+        self.cascade_options = { :step => 2, :skip_root => true }
       end
     end
 
-    def initialize(type, message = nil, values = {}, options = {})
-      options.update(:cascade => self.class.cascade_options)
-      super
+    include Translated # cascading only makes sense for translations
+
+    def options
+      super.update(:cascade => self.class.cascade_options)
     end
-
-    module ClassMethods
-      def cascade_options=(options)
-        @@cascade_options = options # should probably be a class inheritable accessor
-      end
-
-      def cascade_options
-        @@cascade_options ||= { :step => 2, :skip_root => true }
-      end
+    
+    def scope
+      scopes = self.class.cascade_options[:scopes]
+      scopes = [super] + scopes.map { |scope| "#{scope}s.#{values[scope]}" if values[scope] }
+      scopes.compact.join('.')
     end
   end
 end

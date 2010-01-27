@@ -4,18 +4,16 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 class MessageCascadeTest < Test::Unit::TestCase
   class Message < ::Message
     include Cascade
-    def options
-      super.merge(:scope => :'models.model.attributes.attribute') 
-    end
+    # Cascade already includes Translated, too
   end
 
   def setup
     I18n.backend  = CascadingBackend.new
-    Message.cascade_options = { :step => 2, :skip_root => false }
+    Message.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
   end
   
-  include Behavior::Message::Common
-  include Behavior::Message::NonFormatted
+  include Behavior::Base
+  include Behavior::Translated
   include Behavior::Cascade
 end
 

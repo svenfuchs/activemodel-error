@@ -6,7 +6,6 @@ class MessageVariantsTest < Test::Unit::TestCase
     include Variants
   end
 
-  include Behavior::Message::Common
-  include Behavior::Message::NonFormatted
+  include Behavior::Base
   include Behavior::Variants
 end

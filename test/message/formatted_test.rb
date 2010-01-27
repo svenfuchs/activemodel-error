@@ -3,14 +3,16 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 require 'message'
 
 class MessageFormattedTest < Test::Unit::TestCase
-  class Message < ::Message
-    include Formatted
-  end
-  
-  def setup
-    store_translations(:'errors.formats' => { :short => '{{message}}', :full => 'full {{message}}' })
+  class Format < Message::Format
+    include Message::Translated
   end
 
-  include Behavior::Message::Common
+  class Message < ::Message
+    include Translated
+    include Formatted
+    self.format_class = Format
+  end
+
+  include Behavior::Base
   include Behavior::Formatted
 end
