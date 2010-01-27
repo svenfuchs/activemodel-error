@@ -1,4 +1,4 @@
-# Proposal: validation error messages in ActiveModel
+h1. Proposal: validation error messages in ActiveModel
 
 (requires I18n current master)
 
@@ -15,20 +15,20 @@ requirements in a consistent way.
 I want this stuff to be re-usable in other places where similar patterns occur
 when it comes to I18n, such as form labels and potentially other stuff.
 
-# Problems solved
+h2. Problems solved
 
-- Strings in class method calls are be treated as plain text by default
+* Strings in class method calls are treated as plain text by default
   (users might optionally want to treat them as translation keys for
   gettext-style class method calls).
-- Symbols in class method calls are be treated as translation keys.
-- Use messages from class method calls consistently with translation keys that
+* Symbols in class method calls are treated as translation keys.
+* Use messages from class method calls consistently with translation keys that
   are implicitly used for a particular validation.
-- Different translation variants (such as :full_message) for the same message
+* Different translation variants (such as :full_message) for the same message
   must be possible.
-- Translation calls should optionally be able to cascade over scopes.
-- Support format strings, e.g. "{{attribute}} {{message}}", transparently
+* Translation calls should optionally be able to cascade over scopes.
+* Support format strings, e.g. "{{attribute}} {{message}}", transparently
 
-# Classes
+h2. Classes
 
 There currently are three classes defined in the global namespace (mostly a
 problem of picking good names and places).
@@ -40,7 +40,7 @@ The Error class is the meant to work as a default Error class in ActiveModel.
 
 The Format class is used internally to format other messages (see below).
 
-# Features
+h2. Features
 
 The Message class comes with six modules that each provide a single feature.
 This way everything's completely optional and pluggable (thus extensible and
@@ -48,23 +48,23 @@ easy to customize) even though we might choose to not impose this complexity
 on the enduser (and maybe pick a default configuration/provide a configuration
 dsl instead).
 
-## Base
+h3. Base
 
 This module just takes a String message and interpolation values. Calling #to_s
 will interpolate the values and return the String. The module is organized in
 a way so that other modules can hook in easily.
 
-## Translated
+h3. Translated
 
 This module will translate messages that are Symbols.
 
-## Gettext
+h3. Gettext
 
 This module will also translate messages that are Strings. This behavior is
 frequently asked for by people who want to use Gettext-style translation keys
 in class-level calls: validates_presence_of :foo, :message => 'The message'
 
-## Variants
+h3. Variants
 
 This module adds the ability to specify Hashes as messages both at class-level
 and in translation data. E.g.:
@@ -74,7 +74,7 @@ and in translation data. E.g.:
 Calling #to_s on the Message instance will take a variant key and try to find
 and use the variant. It defaults to the :short variant.
 
-## Formatted
+h3. Formatted
 
 This module adds the ability to specify format strings for messages both at
 class-level and in translation data. E.g.:
