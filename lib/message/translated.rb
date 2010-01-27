@@ -1,5 +1,5 @@
 class Message
-  # Encapsulates the pattern of translating a message if it's a Symbol (as in 
+  # Encapsulates the pattern of translating a message if it's a Symbol (as in
   # validates_presence_of :email, :message => :blank) or alternatively using
   # the message type as a translation key (as in validates_presence_of :email)
   #
@@ -20,7 +20,7 @@ class Message
       def translate(message, variant = nil)
         I18n.t(message, translate_options)
       end
-  
+
       def translate_options
         @translate_options ||= { :raise => true, :scope => scope }.merge(options).merge(values)
       end
