@@ -12,7 +12,9 @@ class Message
   include Base
   include Translated
   
-  def scope
-    ['messages', super].compact.join('.')
-  end
+  protected
+
+    def scope
+      ['messages', super].compact.join('.')
+    end
 end

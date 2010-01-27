@@ -3,7 +3,7 @@ class Message
   # message, :full message etc.
   #
   module Variants
-    def to_s(variant = nil)
+    def to_s(variant = :short)
       resolve(message_for(variant), variant)
     end
     

@@ -8,10 +8,6 @@ class Error < Message
     super(type, message || type, values, options)
   end
 
-  def to_s(variant = :short)
-    super
-  end
-
   protected
 
     def scope
