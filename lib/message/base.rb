@@ -23,11 +23,11 @@ class Message
       end
 
       def interpolate(message, variant = nil)
-        message ? message % values : raise(MissingMessageData.new(self))
+        message.is_a?(String) ? message % values : raise(InvalidMessageData.new(self))
       end
   end
   
-  class MissingMessageData < ArgumentError
+  class InvalidMessageData < ArgumentError
     def initialize(message)
       @message = message
     end
