@@ -3,6 +3,9 @@ class Message
   # I18n API instead of returning them.
   #
   module Gettext
+    def scope
+    end
+
     def resolve(message, variant)
       String === message ? translate(message, variant) : super
     end

@@ -3,9 +3,10 @@ $:.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require 'rubygems'
 require 'test/unit'
-require 'i18n'
 require 'behavior'
+
 require 'message'
+require 'format'
 
 module TestMethod
   def self.included(base)

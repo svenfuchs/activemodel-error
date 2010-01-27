@@ -8,13 +8,23 @@ module Behavior
 
     test "no message given, format key :short given, translation is a String" do
       store_translations(:'messages.blank' => 'No email?')
-      assert_equal 'No email?', message(:blank).to_s
+      assert_equal 'No email?', message(:blank).to_s(:short)
+    end
+
+    test "no message given, format key :full given, translation is a String" do
+      store_translations(:'messages.blank' => 'No email?')
+      assert_equal 'No email?', message(:blank).to_s(:full)
     end
 
     # e.g. validates_presence_of :email, :message => :foo / translations :foo => 'No email?'
     test "message is a Symbol, format key :short given, translation is a String" do
       store_translations(:'messages.foo' => 'No email?')
       assert_equal 'No email?', message(:blank, :foo).to_s
+    end
+
+    test "message is a Symbol, format key :full given, translation is a String" do
+      store_translations(:'messages.foo' => 'No email?')
+      assert_equal 'No email?', message(:blank, :foo).to_s(:full)
     end
 
     # INTERPOLATION

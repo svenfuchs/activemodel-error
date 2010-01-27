@@ -1,22 +1,4 @@
 module Behavior  
-  module NonFormatted
-    # # e.g. validates_presence_of :email, :message => "message"
-    # test "message is a String, format key :full given" do
-    #   assert_equal 'message', message(:blank, 'message').to_s(:full)
-    # end
-    # 
-    # # e.g. validates_presence_of :email / translations :blank => 'No email?'
-    # test "no message given, format key :full given, translation is a String" do
-    #   store_translations(:blank => 'No email?')
-    #   assert_equal 'No email?', message(:blank).to_s(:full)
-    # end
-    # 
-    # # e.g. validates_presence_of :email, :message => :foo / translations :foo => 'No email?'
-    # test "message is a Symbol, format key :full given, translation is a String" do
-    #   store_translations(:foo => 'No email?')
-    #   assert_equal 'No email?', message(:blank, :foo).to_s(:full)
-    # end
-  end
 
   module TranslatedVariants
     # # validates_presence_of :email / translations :blank => { :short => 'No email?' }

@@ -1,9 +1,8 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
-require 'message'
 
 class MessageFormattedTest < Test::Unit::TestCase
-  class Format < Message::Format
+  class Format < ::Format
     include Message::Translated
   end
 
