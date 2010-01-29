@@ -2,7 +2,6 @@ require 'message'
 
 class Format
   include Message::Base
-  include Message::Variants
   
   protected
 
