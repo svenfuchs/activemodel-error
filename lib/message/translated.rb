@@ -20,7 +20,7 @@ class Message
       end
 
       def translate_options
-        @translate_options ||= { :raise => true, :scope => scope }.merge(options).merge(values)
+        { :raise => true, :scope => scope }.merge(options).merge(values)
       end
   end
 end
