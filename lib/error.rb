@@ -11,6 +11,6 @@ class Error < Message
   protected
 
     def scope
-      ['errors', super].compact.join('.')
+      ['errors.messages', super].compact.join('.')
     end
 end

@@ -11,10 +11,4 @@ class Message
   
   include Base
   include Translated
-  
-  protected
-
-    def scope
-      ['messages', super].compact.join('.')
-    end
 end
