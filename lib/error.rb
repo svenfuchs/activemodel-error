@@ -3,9 +3,9 @@ require 'message'
 class Error < Message
   attr_reader :model, :attribute
 
-  def initialize(type, message = nil, values = {}, options = {})
+  def initialize(message = nil, values = {}, options = {})
     @model, @attribute = values.values_at(:model, :attribute)
-    super(type, message || type, values, options)
+    super(message || type, values, options)
   end
 
   protected

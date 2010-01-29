@@ -13,7 +13,7 @@ class Message
     
     attr_reader :format
 
-    def initialize(type, message = nil, values = {}, options = {})
+    def initialize(message = nil, values = {}, options = {})
       @format = options.delete(:format)
       super
     end
@@ -24,7 +24,7 @@ class Message
 
     def formatted(message, variant = nil)
       values = self.values.merge(:message => message)
-      format_class.new(variant, format, values, options).to_s(variant)
+      format_class.new(format || variant, values, options).to_s(variant)
     rescue ArgumentError
       message # rescues Message::MissingMessageData and I18n::MissingTranslationData
     end

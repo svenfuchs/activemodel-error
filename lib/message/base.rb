@@ -4,10 +4,10 @@ class Message
   # interpolating given values to the resulting string.
   #
   module Base
-    attr_reader :type, :message, :values, :options, :scope
+    attr_reader :message, :values, :options, :scope
 
-    def initialize(type, message = nil, values = {}, options = {})
-      @type, @message, @values, @options = type, message, values, options
+    def initialize(message = nil, values = {}, options = {})
+      @message, @values, @options = message, values, options
       @values  ||= {}
       @options ||= {}
     end

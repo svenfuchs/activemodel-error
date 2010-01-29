@@ -10,10 +10,8 @@ class Message
         case message
         when String
           super
-        when Symbol
-          translate(message, variant)
         else
-          translate(type, variant)
+          translate(message, variant)
         end
       end
 

@@ -14,7 +14,7 @@ class ActiveModel::Errors
 
   def generate_message(attribute, type = :invalid, options = {})
     options.update(:model => @base.class.model_name, :attribute => attribute)
-    error_class.new(type, options.delete(:default), options)
+    error_class.new(options.delete(:default) || type, options)
   end
 end
 
