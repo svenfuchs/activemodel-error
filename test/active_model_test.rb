@@ -4,19 +4,7 @@ require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 $:.unshift('~/Development/shared/rails/rails-master/activemodel/lib')
 $:.unshift('~/Development/shared/rails/rails-master/activesupport/lib')
 
-require 'active_model'
-require 'active_support/core_ext/class/attribute_accessors'
-require 'error'
-
-class ActiveModel::Errors
-  cattr_accessor :error_class
-  @@error_class = Error
-
-  def generate_message(attribute, type = :invalid, options = {})
-    options.update(:model => @base.class.model_name, :attribute => attribute)
-    error_class.new(options.delete(:default) || type, options)
-  end
-end
+require 'active_model/messages_patch'
 
 class Model
   include ActiveModel::Validations
@@ -24,8 +12,8 @@ class Model
 end
 
 class ActiveModelValidationMessageTest < Test::Unit::TestCase
-  class Error < ::Error
-    class Format < ::Format
+  class Error < ActiveModel::Error
+    class Format < Message::Format
       include Message::Translated
     end
 

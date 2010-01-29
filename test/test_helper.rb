@@ -6,7 +6,6 @@ require 'test/unit'
 require 'behavior'
 
 require 'message'
-require 'format'
 
 module TestMethod
   def self.included(base)

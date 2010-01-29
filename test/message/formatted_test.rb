@@ -2,7 +2,7 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
 class MessageFormattedTest < Test::Unit::TestCase
-  class Format < ::Format
+  class Format < Message::Format
     include Message::Translated
     include Message::Variants
   end

@@ -1,6 +1,7 @@
+require 'active_model'
 require 'message'
 
-class Error < Message
+class ActiveModel::Error < Message
   attr_reader :model, :attribute
 
   def initialize(message = nil, values = {}, options = {})
