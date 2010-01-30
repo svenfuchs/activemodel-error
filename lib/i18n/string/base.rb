@@ -29,7 +29,7 @@ class I18n::String
       end
 
       def interpolate(subject, variant = nil)
-        subject.is_a?(::String) ? subject % options : raise(InvalidMessageData.new(self))
+        subject % options
       end
 
       def translate(subject, variant = nil)
@@ -39,11 +39,5 @@ class I18n::String
       def translate_options
         { :raise => true, :scope => scope }.merge(options) #.merge(values)
       end
-  end
-
-  class InvalidStringData < ArgumentError
-    def initialize(subject)
-      @subject = subject
-    end
   end
 end

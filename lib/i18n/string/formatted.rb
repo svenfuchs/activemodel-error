@@ -27,7 +27,7 @@ class I18n::String
       def formatted(subject, variant = nil)
         options = self.options.merge(:message => subject) # TODO :message is ActiveModel::Error specific
         format_class.new(format || variant, options).to_s(variant)
-      rescue I18n::String::InvalidStringData, I18n::MissingTranslationData
+      rescue I18n::MissingTranslationData
         subject
       end
   end
