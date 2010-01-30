@@ -25,8 +25,8 @@ class I18n::String
     def formatted(subject, variant = nil)
       values = self.values.merge(:message => subject) # TODO :message is Error specific
       format_class.new(format || variant, values, options).to_s(variant)
-    rescue ArgumentError
-      subject # rescues I18n::String::InvalidStringData and I18n::MissingTranslationData
+    rescue I18n::String::InvalidStringData, I18n::MissingTranslationData
+      subject
     end
   end
 end
