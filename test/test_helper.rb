@@ -37,7 +37,7 @@ class Test::Unit::TestCase
     I18n.backend  = nil
   end
   
-  def message(*args)
+  def string(*args)
     self.class.const_get(:String).new(*args)
   end
 

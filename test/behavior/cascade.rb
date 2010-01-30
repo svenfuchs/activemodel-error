@@ -1,18 +1,18 @@
 module Behavior
   module Cascade
-    test "returns message from attribute scope" do
+    test "returns translation from attribute scope" do
       store_translations(:'models.model.attributes.attribute.message' => 'message')
-      assert_equal 'message', message(:message, :model => 'model', :attribute => 'attribute').to_s
+      assert_equal 'message', string(:message, :model => 'model', :attribute => 'attribute').to_s
     end
 
-    test "returns message from model scope" do
+    test "returns translation from model scope" do
       store_translations(:'models.model.message' => 'message')
-      assert_equal 'message', message(:message, :model => 'model', :attribute => 'attribute').to_s
+      assert_equal 'message', string(:message, :model => 'model', :attribute => 'attribute').to_s
     end
 
-    test "returns message from errors scope" do
+    test "returns translation from errors scope" do
       store_translations(:message => 'message')
-      assert_equal 'message', message(:message, :model => 'model', :attribute => 'attribute').to_s
+      assert_equal 'message', string(:message, :model => 'model', :attribute => 'attribute').to_s
     end
   end
 end

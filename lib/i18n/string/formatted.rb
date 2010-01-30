@@ -1,7 +1,7 @@
 require 'active_support/core_ext/class/attribute_accessors'
 
 class I18n::String
-  # Encapsulates the pattern of wrapping a message with a format string.
+  # Encapsulates the pattern of wrapping a string with a format string.
   #
   module Formatted
     def self.included(base)
@@ -13,20 +13,20 @@ class I18n::String
     
     attr_reader :format
 
-    def initialize(message = nil, values = {}, options = {})
+    def initialize(subject = nil, values = {}, options = {})
       @format = options.delete(:format)
       super
     end
 
-    def resolve(message, variant = nil)
+    def resolve(subject, variant = nil)
       format || variant ? formatted(super, variant) : super
     end
 
-    def formatted(message, variant = nil)
-      values = self.values.merge(:message => message)
+    def formatted(subject, variant = nil)
+      values = self.values.merge(:message => subject) # TODO :message is Error specific
       format_class.new(format || variant, values, options).to_s(variant)
     rescue ArgumentError
-      message # rescues I18n::String::InvalidStringData and I18n::MissingTranslationData
+      subject # rescues I18n::String::InvalidStringData and I18n::MissingTranslationData
     end
   end
 end

@@ -3,7 +3,7 @@ require 'active_support/inflector'
 require 'active_support/core_ext/string/inflections'
 
 class I18n::String
-  # Encapsulates the pattern of looking a translated message up from several
+  # Encapsulates the pattern of looking up a translation key from several
   # scopes.
   #
   module Cascade

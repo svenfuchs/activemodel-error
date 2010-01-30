@@ -1,35 +1,50 @@
 class I18n::String
-  # Encapsulates the pattern of using a plain String message (as in 
-  # validates_presence_of :email, :message => "can't be blank") and 
-  # interpolating given values to the resulting string.
+  # Encapsulates the patterns of:
+  # 
+  #   * using a plain String (as in validates_presence_of :email, :message => "can't be blank") 
+  #   * translating a Symbol (as in validates_presence_of :email, :message => :blank)
+  #   * interpolating given values to the resulting string.
   #
   module Base
-    attr_reader :message, :values, :options, :scope
+    attr_reader :subject, :values, :options, :scope
 
-    def initialize(message = nil, values = {}, options = {})
-      @message, @values, @options = message, values, options
+    def initialize(subject = nil, values = {}, options = {})
+      @subject, @values, @options = subject, values, options
       @values  ||= {}
       @options ||= {}
     end
 
     def to_s(variant = nil)
-      resolve(message, variant)
+      resolve(subject, variant)
     end
 
     protected
 
-      def resolve(message, variant = nil)
-        interpolate(message, variant)
+      def resolve(subject, variant = nil)
+        case subject
+        when ::String
+          interpolate(subject, variant)
+        else
+          translate(subject, variant)
+        end
       end
 
-      def interpolate(message, variant = nil)
-        message.is_a?(::String) ? message % values : raise(InvalidMessageData.new(self))
+      def interpolate(subject, variant = nil)
+        subject.is_a?(::String) ? subject % values : raise(InvalidMessageData.new(self))
+      end
+
+      def translate(subject, variant = nil)
+        I18n.t(subject, translate_options)
+      end
+
+      def translate_options
+        { :raise => true, :scope => scope }.merge(options).merge(values)
       end
   end
   
   class InvalidStringData < ArgumentError
-    def initialize(message)
-      @message = message
+    def initialize(subject)
+      @subject = subject
     end
   end
 end

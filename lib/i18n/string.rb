@@ -7,9 +7,7 @@ class I18n::String
   autoload :Gettext,    'i18n/string/gettext'
   autoload :Format,     'i18n/string/format'
   autoload :Formatted,  'i18n/string/formatted'
-  autoload :Translated, 'i18n/string/translated'
   autoload :Variants,   'i18n/string/variants'
   
   include Base
-  include Translated
 end

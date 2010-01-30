@@ -3,12 +3,10 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
 class AllFeaturesTest < Test::Unit::TestCase
   class Format < I18n::String::Format
-    include I18n::String::Translated
     include I18n::String::Variants
   end
 
   class String < I18n::String
-    include Translated
     include Cascade
     include Variants
     include Formatted

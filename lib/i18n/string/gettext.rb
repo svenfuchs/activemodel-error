@@ -1,6 +1,5 @@
 class I18n::String
-  # Sends message Strings as defined in class-level definitions through the
-  # I18n API instead of returning them.
+  # Sends Strings as defined through the I18n API instead of using them directly.
   #
   module Gettext
     def resolve(message, variant)

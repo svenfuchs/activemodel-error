@@ -13,13 +13,8 @@ end
 
 class ActiveModelValidationStringTest < Test::Unit::TestCase
   class Error < ActiveModel::Error
-    class Format < I18n::String::Format
-      include I18n::String::Translated
-    end
+    include Cascade, Variants, Formatted
 
-    include Translated, Cascade, Variants, Formatted
-
-    self.format_class = Format
     self.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
   end
 

@@ -50,13 +50,10 @@ dsl instead).
 
 h3. Base
 
-This module just takes a String message and interpolation values. Calling #to_s
-will interpolate the values and return the String. The module is organized in
-a way so that other modules can hook in easily.
-
-h3. Translated
-
-This module will translate messages that are Symbols.
+This module just takes a String message OR translation key (Symbol) and 
+interpolation values. Calling #to_s will use the string or translate the key 
+and interpolate the values. The module is organized in a way so that other 
+modules can hook in easily.
 
 h3. Gettext
 

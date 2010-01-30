@@ -4,7 +4,6 @@ require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 class I18nStringCascadeTest < Test::Unit::TestCase
   class String < I18n::String
     include Cascade
-    # Cascade already includes Translated, too
   end
 
   def setup
@@ -13,7 +12,6 @@ class I18nStringCascadeTest < Test::Unit::TestCase
   end
   
   include Behavior::Base
-  include Behavior::Translated
   include Behavior::Cascade
 end
 
