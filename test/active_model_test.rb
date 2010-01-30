@@ -15,7 +15,7 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
   class Error < ActiveModel::Error
     include Cascade, Variants, Formatted
 
-    self.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
+    self.cascade_options = { :step => 2, :scopes => [:model, :attribute] }
   end
 
   def setup
