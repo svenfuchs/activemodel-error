@@ -30,15 +30,12 @@ h2. Problems solved
 
 h2. Classes
 
-There currently are three classes defined in the global namespace (mostly a
-problem of picking good names and places).
-
-The Message class is the main base class that's supposed to work (as a common
-base class) in several situations such as error messages, form labels etc.
-
 The Error class is the meant to work as a default Error class in ActiveModel.
 
-The Format class is used internally to format other messages (see below).
+I18n::String is the main base class and is supposed to work situations such as 
+error messages, form labels etc.
+
+The Format class is used internally to format other strings (see below).
 
 h2. Features
 
@@ -48,33 +45,33 @@ easy to customize) even though we might choose to not impose this complexity
 on the enduser (and maybe pick a default configuration/provide a configuration
 dsl instead).
 
-h3. Base
+h3. I18n::String::Base
 
-This module just takes a String message OR translation key (Symbol) and 
-interpolation values. Calling #to_s will use the string or translate the key 
-and interpolate the values. The module is organized in a way so that other 
-modules can hook in easily.
+This module just takes a String OR translation key (Symbol) and interpolation 
+values. Calling #to_s will use the string or translate the key and interpolate
+the values. The module is organized in a way so that other modules can hook in 
+easily.
 
-h3. Gettext
+h3. I18n::String::Gettext
 
-This module will also translate messages that are Strings. This behavior is
-frequently asked for by people who want to use Gettext-style translation keys
-in class-level calls: validates_presence_of :foo, :message => 'The message'
+This module will also translate Strings. This behavior is frequently asked for 
+by people who want to use Gettext-style translation keys in class-level calls
+as in validates_presence_of :foo, :message => 'The message'
 
-h3. Variants
+h3. I18n::String::Variants
 
-This module adds the ability to specify Hashes as messages both at class-level
+This module adds the ability to specify Hashes as strings both at class-level
 and in translation data. E.g.:
 
   validates_presence_of :foo, :message => { :short => 'Short!', :full => 'The full message!' }
 
-Calling #to_s on the Message instance will take a variant key and try to find
-and use the variant. It defaults to the :short variant.
+Calling #to_s on the I18n::String instance will take a variant key and try to
+find and use the variant. It defaults to the :short variant.
 
-h3. Formatted
+h3. I18n::String::Formatted
 
-This module adds the ability to specify format strings for messages both at
-class-level and in translation data. E.g.:
+This module adds the ability to specify format strings both at class-level and
+in translation data. E.g.:
 
   validates_presence_of :foo, :format => 'The formatted {{message}}.'
 
@@ -84,7 +81,7 @@ would expect:
   validates_presence_of :foo, :message => { :short => 'foo', :full => 'FOO' }
                               :format  => { :full => 'The formatted {{message}}.' }
 
-message.to_s(:full) would then wrap the :full message 'FOO' into the :full
+message.to_s(:full) would then wrap the :full variant 'FOO' into the :full
 format string and yield 'The formatted FOO'. message.to_s (defaults to :short)
 would just yield 'foo' as expected.
 
