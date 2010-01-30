@@ -2,7 +2,7 @@ require 'active_support/core_ext/class/attribute_accessors'
 require 'active_support/inflector'
 require 'active_support/core_ext/string/inflections'
 
-class Message
+class I18n::String
   # Encapsulates the pattern of looking a translated message up from several
   # scopes.
   #

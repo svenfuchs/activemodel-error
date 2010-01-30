@@ -5,7 +5,7 @@ require 'rubygems'
 require 'test/unit'
 require 'behavior'
 
-require 'message'
+require 'i18n/string'
 
 module TestMethod
   def self.included(base)
@@ -38,7 +38,7 @@ class Test::Unit::TestCase
   end
   
   def message(*args)
-    self.class.const_get(:Message).new(*args)
+    self.class.const_get(:String).new(*args)
   end
 
   def store_translations(data)

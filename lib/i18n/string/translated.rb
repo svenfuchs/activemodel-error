@@ -1,4 +1,4 @@
-class Message
+class I18n::String
   # Encapsulates the pattern of translating a message if it's a Symbol (as in
   # validates_presence_of :email, :message => :blank) or alternatively using
   # the message type as a translation key (as in validates_presence_of :email)
@@ -8,7 +8,7 @@ class Message
 
       def resolve(message, variant = nil)
         case message
-        when String
+        when ::String
           super
         else
           translate(message, variant)

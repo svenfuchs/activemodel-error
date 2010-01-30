@@ -1,4 +1,4 @@
-class Message
+class I18n::String
   # Encapsulates the pattern of using a plain String message (as in 
   # validates_presence_of :email, :message => "can't be blank") and 
   # interpolating given values to the resulting string.
@@ -23,11 +23,11 @@ class Message
       end
 
       def interpolate(message, variant = nil)
-        message.is_a?(String) ? message % values : raise(InvalidMessageData.new(self))
+        message.is_a?(::String) ? message % values : raise(InvalidMessageData.new(self))
       end
   end
   
-  class InvalidMessageData < ArgumentError
+  class InvalidStringData < ArgumentError
     def initialize(message)
       @message = message
     end

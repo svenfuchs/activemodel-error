@@ -1,4 +1,4 @@
-class Message
+class I18n::String
   # Encapsulates the pattern of messages having multiple variations as :short
   # message, :full message etc.
   #
@@ -15,7 +15,7 @@ class Message
       I18n.t(:"#{message}.#{variant}", translate_options)
     rescue I18n::MissingTranslationData => e
       result = super
-      result.is_a?(String) ? result : raise(e)
+      result.is_a?(::String) ? result : raise(e)
     end
   end
 end

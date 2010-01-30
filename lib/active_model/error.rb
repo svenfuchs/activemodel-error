@@ -1,7 +1,7 @@
 require 'active_model'
-require 'message'
+require 'i18n/string'
 
-class ActiveModel::Error < Message
+class ActiveModel::Error < I18n::String
   attr_reader :model, :attribute
 
   def initialize(message = nil, values = {}, options = {})

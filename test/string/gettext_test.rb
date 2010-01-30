@@ -1,9 +1,9 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class MessageGettextTest < Test::Unit::TestCase
-  class Message < ::Message
-    include Message::Gettext
+class I18nStringGettextTest < Test::Unit::TestCase
+  class String < I18n::String
+    include Gettext
   end
 
   def setup

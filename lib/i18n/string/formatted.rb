@@ -1,6 +1,6 @@
 require 'active_support/core_ext/class/attribute_accessors'
 
-class Message
+class I18n::String
   # Encapsulates the pattern of wrapping a message with a format string.
   #
   module Formatted
@@ -26,7 +26,7 @@ class Message
       values = self.values.merge(:message => message)
       format_class.new(format || variant, values, options).to_s(variant)
     rescue ArgumentError
-      message # rescues Message::MissingMessageData and I18n::MissingTranslationData
+      message # rescues I18n::String::InvalidStringData and I18n::MissingTranslationData
     end
   end
 end

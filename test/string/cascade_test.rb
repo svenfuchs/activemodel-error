@@ -1,15 +1,15 @@
 # encoding: utf-8
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
-class MessageCascadeTest < Test::Unit::TestCase
-  class Message < ::Message
+class I18nStringCascadeTest < Test::Unit::TestCase
+  class String < I18n::String
     include Cascade
     # Cascade already includes Translated, too
   end
 
   def setup
     I18n.backend  = CascadingBackend.new
-    Message.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
+    String.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
   end
   
   include Behavior::Base
@@ -17,8 +17,8 @@ class MessageCascadeTest < Test::Unit::TestCase
   include Behavior::Cascade
 end
 
-class MessageCascadeVariantsTest < MessageCascadeTest
-  class Message < MessageCascadeTest::Message
+class I18nStringCascadeVariantsTest < I18nStringCascadeTest
+  class String < I18nStringCascadeTest::String
     include Variants
   end
 

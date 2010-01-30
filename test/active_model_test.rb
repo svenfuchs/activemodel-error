@@ -11,10 +11,10 @@ class Model
   attr_reader :foo
 end
 
-class ActiveModelValidationMessageTest < Test::Unit::TestCase
+class ActiveModelValidationStringTest < Test::Unit::TestCase
   class Error < ActiveModel::Error
-    class Format < Message::Format
-      include Message::Translated
+    class Format < I18n::String::Format
+      include I18n::String::Translated
     end
 
     include Translated, Cascade, Variants, Formatted

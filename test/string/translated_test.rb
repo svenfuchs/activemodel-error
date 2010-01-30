@@ -1,8 +1,8 @@
 # encoding: utf-8
 require File.expand_path('../../test_helper', __FILE__)
 
-class MessageTranslatedTest < Test::Unit::TestCase
-  class Message < ::Message
+class I18nStringTranslatedTest < Test::Unit::TestCase
+  class String < I18n::String
     include Translated
   end
 

@@ -1,4 +1,4 @@
-class Message
+class I18n::String
   class Format
     include Base
   
