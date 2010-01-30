@@ -6,11 +6,10 @@ class I18n::String
   #   * interpolating given values to the resulting string.
   #
   module Base
-    attr_reader :subject, :values, :options, :scope
+    attr_reader :subject, :options, :scope
 
-    def initialize(subject = nil, values = {}, options = {})
-      @subject, @values, @options = subject, values, options
-      @values  ||= {}
+    def initialize(subject = nil, options = {})
+      @subject, @options = subject, options
       @options ||= {}
     end
 
@@ -30,7 +29,7 @@ class I18n::String
       end
 
       def interpolate(subject, variant = nil)
-        subject.is_a?(::String) ? subject % values : raise(InvalidMessageData.new(self))
+        subject.is_a?(::String) ? subject % options : raise(InvalidMessageData.new(self))
       end
 
       def translate(subject, variant = nil)
@@ -38,7 +37,7 @@ class I18n::String
       end
 
       def translate_options
-        { :raise => true, :scope => scope }.merge(options).merge(values)
+        { :raise => true, :scope => scope }.merge(options) #.merge(values)
       end
   end
 

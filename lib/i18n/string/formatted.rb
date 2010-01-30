@@ -13,7 +13,7 @@ class I18n::String
 
     attr_reader :format
 
-    def initialize(subject = nil, values = {}, options = {})
+    def initialize(subject = nil, options = {})
       @format = options.delete(:format)
       super
     end
@@ -25,8 +25,8 @@ class I18n::String
       end
 
       def formatted(subject, variant = nil)
-        values = self.values.merge(:message => subject) # TODO :message is ActiveModel::Error specific
-        format_class.new(format || variant, values, options).to_s(variant)
+        options = self.options.merge(:message => subject) # TODO :message is ActiveModel::Error specific
+        format_class.new(format || variant, options).to_s(variant)
       rescue I18n::String::InvalidStringData, I18n::MissingTranslationData
         subject
       end

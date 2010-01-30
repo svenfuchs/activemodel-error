@@ -4,12 +4,12 @@ class I18n::String
   #
   module Variants
     def to_s(variant = :short)
-      resolve(pick(variant), variant)
+      resolve(select(variant), variant)
     end
 
     protected
 
-      def pick(variant)
+      def select(variant)
         Hash === subject ? subject[variant] : subject
       end
 
