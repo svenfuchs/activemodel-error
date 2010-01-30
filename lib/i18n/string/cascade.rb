@@ -17,7 +17,7 @@ class I18n::String
     def options
       super.update(:cascade => self.class.cascade_options)
     end
-    
+
     def scope
       scopes = self.class.cascade_options[:scopes]
       scopes = [super] + scopes.map { |scope| "#{scope}s.#{values[scope].to_s.underscore}" if values[scope] }

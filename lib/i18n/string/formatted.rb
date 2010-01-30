@@ -10,7 +10,7 @@ class I18n::String
         self.format_class = Format
       end
     end
-    
+
     attr_reader :format
 
     def initialize(subject = nil, values = {}, options = {})
@@ -18,16 +18,18 @@ class I18n::String
       super
     end
 
-    def resolve(subject, variant = nil)
-      format || variant ? formatted(super, variant) : super
-    end
+    protected
 
-    def formatted(subject, variant = nil)
-      values = self.values.merge(:message => subject) # TODO :message is Error specific
-      format_class.new(format || variant, values, options).to_s(variant)
-    rescue I18n::String::InvalidStringData, I18n::MissingTranslationData
-      subject
-    end
+      def resolve(subject, variant = nil)
+        format || variant ? formatted(super, variant) : super
+      end
+
+      def formatted(subject, variant = nil)
+        values = self.values.merge(:message => subject) # TODO :message is ActiveModel::Error specific
+        format_class.new(format || variant, values, options).to_s(variant)
+      rescue I18n::String::InvalidStringData, I18n::MissingTranslationData
+        subject
+      end
   end
 end
 

@@ -1,7 +1,7 @@
 class I18n::String
   # Encapsulates the patterns of:
-  # 
-  #   * using a plain String (as in validates_presence_of :email, :message => "can't be blank") 
+  #
+  #   * using a plain String (as in validates_presence_of :email, :message => "can't be blank")
   #   * translating a Symbol (as in validates_presence_of :email, :message => :blank)
   #   * interpolating given values to the resulting string.
   #
@@ -41,7 +41,7 @@ class I18n::String
         { :raise => true, :scope => scope }.merge(options).merge(values)
       end
   end
-  
+
   class InvalidStringData < ArgumentError
     def initialize(subject)
       @subject = subject

@@ -6,16 +6,18 @@ class I18n::String
     def to_s(variant = :short)
       resolve(pick(variant), variant)
     end
-    
-    def pick(variant)
-      Hash === subject ? subject[variant] : subject
-    end
 
-    def translate(subject, variant)
-      I18n.t(:"#{subject}.#{variant}", translate_options)
-    rescue I18n::MissingTranslationData => e
-      result = super
-      result.is_a?(::String) ? result : raise(e)
-    end
+    protected
+
+      def pick(variant)
+        Hash === subject ? subject[variant] : subject
+      end
+
+      def translate(subject, variant)
+        I18n.t(:"#{subject}.#{variant}", translate_options)
+      rescue I18n::MissingTranslationData => e
+        result = super
+        result.is_a?(::String) ? result : raise(e)
+      end
   end
 end
