@@ -3,6 +3,8 @@ require File.expand_path(File.dirname(__FILE__)) + '/test_helper'
 
 $:.unshift('~/Development/shared/rails/rails-master/activemodel/lib')
 $:.unshift('~/Development/shared/rails/rails-master/activesupport/lib')
+$:.unshift('~/Projects/Ruby/rails/activemodel/lib')
+$:.unshift('~/Projects/Ruby/rails/activesupport/lib')
 
 require 'active_model/messages_patch'
 
@@ -98,4 +100,33 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
     Model.validates_length_of :foo, :minimum => 1, :message => '%{count}'
     assert_equal "1", model.errors[:foo].first.to_s
   end
+  
+  test "returns an instance of AttributeErrors" do
+    Model.validates_presence_of :foo
+    assert model.errors[:foo].is_a?(ActiveModel::AttributeErrors)
+  end
+  
+  test "AttributeErrors supports common methods" do
+    store_translations(:'errors.messages.blank' => 'message')
+    
+    errors = model.errors[:foo]
+    assert errors.empty?
+    assert !errors.any?
+    
+    errors << :blank
+    assert !errors.empty?
+    assert errors.any?
+    assert errors.include?(:blank)
+    assert errors.include?("message")
+    assert_equal "message", errors.first.to_s    
+  end
+  
+  test "errors added directly to AttributeErrors are accesible via Errors" do
+    foo = model
+    foo.errors[:bar] << :blank
+    
+    assert_equal 1, foo.errors.size
+    assert_equal ['Bar can\'t be blank'], foo.errors.to_a
+  end
+  
 end
