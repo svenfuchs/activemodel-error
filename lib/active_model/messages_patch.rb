@@ -13,7 +13,7 @@ module ActiveModel
       if errors = get(attribute.to_sym)
         errors
       else
-        set(attribute.to_sym, AttributeErrors.new(@base, attribute.to_sym))
+        set(attribute.to_sym, AttributeErrors.new(self, attribute.to_sym))
       end
     end
 
@@ -62,8 +62,7 @@ module ActiveModel
     end
 
     def generate_message(type = :invalid, options = {})
-      options.update(:model => @base.class.model_name, :attribute => @attribute)
-      Errors.error_class.new(options.delete(:default) || type, options)
+      @base.generate_message(attribute, type, options)
     end
 
     def to_a
