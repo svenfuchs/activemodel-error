@@ -10,7 +10,9 @@
 #   update line the following line, then running this file should run validations tests
 
 dir = File.expand_path('~/Development/shared/rails/rails-master/activemodel')
+dir = File.expand_path('~/Projects/Ruby/rails/activemodel/')
 $:.unshift "#{dir}/lib", "#{dir}/test"
+$:.unshift('~/Projects/Ruby/rails/activesupport/lib')
 
 require File.expand_path('../../test_helper', __FILE__)
 require 'active_model/messages_patch'
