@@ -2,11 +2,11 @@ require 'active_model'
 require 'i18n/string'
 
 class ActiveModel::Error < I18n::String
-  attr_reader :model, :attribute
+  attr_reader :base, :model, :attribute
 
   def initialize(subject = nil, options = {})
-    values = options[:values] || {}
-    @model, @attribute = values.values_at(:model, :attribute)
+    @base, @attribute = options.values_at(:model, :attribute)
+    @model = options[:model] = @base.class.model_name
     super(subject || type, options)
   end
 
