@@ -10,9 +10,18 @@ class ActiveModel::Error < I18n::String
     super(subject || type, options)
   end
 
+  def <=>(other)
+    to_s <=> other
+  end
+
   protected
 
     def scope
       ['errors.messages', super].compact.join('.')
+    end
+
+    def translate_options
+      scope = self.scope.gsub('.messages', '')
+      { :raise => true, :scope => scope, :default => :"messages.#{subject}" }.merge(options)
     end
 end

@@ -29,7 +29,15 @@ class I18n::String
       end
 
       def interpolate(subject, variant = nil)
-        subject % options
+        subject.gsub('{{', '%{') % options # TODO use regex
+      end
+
+      INTERPOLATION_SYNTAX_PATTERN = /(\\)?\{\{([^\}]+)\}\}/
+      def interpolate(string, variant = nil)
+        s = string.gsub(INTERPOLATION_SYNTAX_PATTERN) do
+          $1 ? "{{#{$2.to_sym}}}" : "%{#{$2.to_sym}}"
+        end
+        s % options
       end
 
       def translate(subject, variant = nil)
