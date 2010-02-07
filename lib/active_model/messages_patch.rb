@@ -5,6 +5,8 @@ require 'active_model'
 module ActiveModel
   autoload :Error, 'active_model/error'
 
+  # Error.send(:include, I18n::String::Variants, I18n::String::Formatted)
+
   class Errors
     cattr_accessor :error_class
     @@error_class = ActiveModel::Error
@@ -69,5 +71,4 @@ module ActiveModel
       @errors
     end
   end
-
 end
