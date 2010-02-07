@@ -2,11 +2,11 @@ require 'active_model'
 require 'i18n/string'
 
 class ActiveModel::Error < I18n::String
-  attr_reader :base, :model, :attribute
+  attr_reader :base, :attribute, :value
 
   def initialize(subject = nil, options = {})
-    @base, @attribute = options.values_at(:model, :attribute)
-    @model = options[:model] = @base.class.model_name
+    @base, @attribute, @value = options.values_at(:model, :attribute, :value)
+    @attribute = attribute
     super(subject || type, options)
   end
 
@@ -16,12 +16,25 @@ class ActiveModel::Error < I18n::String
 
   protected
 
-    def scope
-      ['errors.messages', super].compact.join('.')
-    end
+    def translate(subject, variant = nil)
+      defaults = base.class.lookup_ancestors.map do |klass|
+        [ :"models.#{klass.name.underscore}.attributes.#{attribute}.#{subject}",
+          :"models.#{klass.name.underscore}.#{subject}" ]
+      end
 
-    def translate_options
-      scope = self.scope.gsub('.messages', '')
-      { :raise => true, :scope => scope, :default => :"messages.#{subject}" }.merge(options)
+      defaults << options.delete(:default)
+      defaults = defaults.compact.flatten << :"messages.#{subject}"
+
+      key = defaults.shift
+      options = @options.merge(
+        :scope     => :errors,
+        :default   => defaults,
+        :model     => base.class.model_name.human,
+        :attribute => base.class.human_attribute_name(attribute),
+        :value     => value,
+        :raise     => true
+      )
+
+      I18n.translate(key, options)
     end
 end
