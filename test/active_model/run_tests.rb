@@ -1,4 +1,4 @@
-# setup: 
+# setup:
 #
 #   git clone rails
 #   gem install bundler
@@ -9,9 +9,12 @@
 #
 #   update line the following line, then running this file should run validations tests
 
-dir = File.expand_path('~/Development/shared/rails/rails-master/activemodel')
-dir = File.expand_path('~/Projects/Ruby/rails/activemodel/')
-$:.unshift "#{dir}/lib", "#{dir}/test"
+dirs = %w(
+  ~/Development/shared/rails/rails-master/activemodel
+  ~/Projects/Ruby/rails/activemodel/
+).map { |dir| File.expand_path(dir) }
+
+dirs.each { |dir| $:.unshift "#{dir}/lib", "#{dir}/test" }
 $:.unshift('~/Projects/Ruby/rails/activesupport/lib')
 
 require File.expand_path('../../test_helper', __FILE__)
@@ -43,13 +46,13 @@ class String
 end
 
 class ActiveModel::Error
-  include Cascade, Variants, Formatted
-  self.cascade_options = { :step => 2, :scopes => [:model, :attribute] }
+  include Variants, Formatted # Cascade
+  # self.cascade_options = { :step => 2, :scopes => [:model, :attribute] }
 end
 
-I18n::Backend::Simple.send(:include, I18n::Backend::Cascade)
+# I18n::Backend::Simple.send(:include, I18n::Backend::Cascade)
 
-tests = Dir["#{dir}/test/cases/validations{/**/*,}_test.rb"]
+tests = dirs.map { |dir| Dir["#{dir}/test/cases/validations{/**/*,}_test.rb"] }.flatten
 # tests = Dir["#{dir}/test/cases/validations_test.rb"]
 # tests.reject! { |test| test.include?('i18n_validation_test.rb') }
 tests.each { |test| require test }
