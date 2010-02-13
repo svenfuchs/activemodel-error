@@ -1,4 +1,4 @@
-- fix that Error/Cascade doesn't include anchestor class names as keys
+- fix that Error/Cascade doesn't include ancestor class names as keys
 
 - fix that :messages so far is not included in models/attribute scopes?
     activemodel.errors.models.user.attributes.title.blank

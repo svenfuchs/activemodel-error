@@ -1,0 +1,21 @@
+require 'rake/testtask'
+
+task :default => [:test]
+
+Rake::TestTask.new(:test) do |t|
+  t.pattern = "#{File.dirname(__FILE__)}/test/all.rb"
+  t.verbose = true
+end
+Rake::Task['test'].comment = "Run all tests"
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "active_model_message_translation"
+    gemspec.summary = "Proposal for validation error messages in ActiveModel"
+    gemspec.homepage = "http://github.com/svenfuchs/active_model_message_translation"
+    gemspec.authors = ["Sven Fuchs", "Mateo Murphy"]
+  end
+rescue LoadError
+  puts "Jeweler not available. Install it with: gem install jeweler"
+end
