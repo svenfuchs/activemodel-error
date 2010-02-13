@@ -43,7 +43,6 @@ module ActiveModel
 
     def add(message = nil, options = {})
       message = generate_message(message, options) if message.is_a?(Symbol)
-      message = message.call if message.is_a?(Proc)
       @errors << message
     end
 

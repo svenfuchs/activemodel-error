@@ -7,14 +7,27 @@ module Behavior
       assert_equal 'message', string('message').to_s
     end
 
+    test "subject evaluates to a String, no format key given" do
+      assert_equal 'message', string(Proc.new {'message'}).to_s
+    end
+
     # interpolation
     test "subject is a String, interpolates a variable" do
       assert_equal 'FOO', string('%{foo}', :foo => 'FOO').to_s
     end
 
+    test "subject evaluates to a String, interpolates a variable" do
+      assert_equal 'FOO', string(Proc.new {'%{foo}'}, :foo => 'FOO').to_s
+    end
+
     test "subject is a String, bogus interpolation variable, does not raise" do
       assert_nothing_raised { string('foo', :foo => 'FOO').to_s }
     end
+
+    test "subject evaluates to a String, bogus interpolation variable, does not raise" do
+      assert_nothing_raised { string(Proc.new {'foo'}, :foo => 'FOO').to_s }
+    end
+
     
     # TRANSLATED
     
@@ -39,6 +52,11 @@ module Behavior
       store_translations(:foo => '{{foo}}')
       assert_equal 'FOO', string(:foo, :foo => 'FOO').to_s
     end
+    
+    test "subject evaluates to a Symbol, translation is a String, interpolates a variable" do
+      store_translations(:foo => '{{foo}}')
+      assert_equal 'FOO', string(Proc.new {:foo}, :foo => 'FOO').to_s
+    end  
     
   end
 end

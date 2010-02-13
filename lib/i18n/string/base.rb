@@ -20,6 +20,8 @@ class I18n::String
     protected
 
       def resolve(subject, variant = nil)
+        subject = subject.call if subject.respond_to?(:call)
+
         case subject
         when ::String
           interpolate(subject, variant)

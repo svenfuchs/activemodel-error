@@ -42,6 +42,11 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
     assert_equal "message", model.errors[:foo].first.to_s
   end
 
+  test "uses a class level Proc message" do
+    Model.validates_presence_of :foo, :message => proc {'message'}
+    assert_equal "message", model.errors[:foo].first.to_s
+  end
+
   test "uses class level String message formats" do
     Model.validates_presence_of :foo, :message => { :short => 'short', :full => 'full'}
     assert_equal "short", model.errors[:foo].first.to_s
@@ -52,6 +57,12 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
   test "uses a translation from the messages namespace" do
     Model.validates_presence_of :foo
     store_translations(:'errors.messages.blank' => 'message')
+    assert_equal "message", model.errors[:foo].first.to_s
+  end
+
+  test "uses a translation from the messages namespace with a Proc" do
+    Model.validates_presence_of :foo, :message => proc { :foo } 
+    store_translations(:'errors.messages.foo' => 'message')
     assert_equal "message", model.errors[:foo].first.to_s
   end
 
