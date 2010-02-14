@@ -17,6 +17,10 @@ class I18n::String
       resolve(subject, variant)
     end
 
+    def <=>(other)
+      to_s <=> other
+    end
+    
     protected
 
       def resolve(subject, variant = nil)
