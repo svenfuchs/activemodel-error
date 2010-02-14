@@ -21,6 +21,10 @@ require File.expand_path('../../test_helper', __FILE__)
 require 'active_model/messages_patch'
 require 'core_ext/error_comparsion'
 
+class ActiveModel::Error
+  include Legacy
+end
+
 tests = dirs.map { |dir| Dir["#{dir}/test/cases/validations{/**/*,}_test.rb"] }.flatten
 # tests = Dir["#{dir}/test/cases/validations_test.rb"]
 # tests.reject! { |test| test.include?('i18n_validation_test.rb') }
