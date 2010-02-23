@@ -13,6 +13,7 @@ require 'test/unit'
 require 'behavior'
 
 require 'i18n/string'
+require 'active_model/messages_patch'
 
 module TestMethod
   def self.included(base)

@@ -1,8 +1,6 @@
 # encoding: utf-8
 require File.expand_path('../../../test_helper', __FILE__)
 
-require 'active_model/messages_patch'
-
 class ActiveModelApiVariantsTest < Test::Unit::TestCase
   class Model
     include ActiveModel::Validations

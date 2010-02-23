@@ -1,8 +1,6 @@
 # encoding: utf-8
 require File.expand_path('../../../test_helper', __FILE__)
 
-require 'active_model/messages_patch'
-
 class ActiveModelApiLookupTest < Test::Unit::TestCase
   class Model
     include ActiveModel::Validations
@@ -12,7 +10,6 @@ class ActiveModelApiLookupTest < Test::Unit::TestCase
 
   def setup
     I18n.backend.send(:init_translations) # i.e. don't overwrite our translations
-    # store_translations(:'errors.messages.blank' => 'message')
   end
 
   def teardown
