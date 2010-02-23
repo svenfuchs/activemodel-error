@@ -6,8 +6,15 @@ class I18n::String
   module Formatted
     def self.included(base)
       base.class_eval do
-        cattr_accessor :format_class
-        self.format_class = Format
+        class << self
+          def format_class
+            @format_class ||= Format
+          end
+
+          def format_class=(format_class)
+            @format_class = format_class
+          end
+        end
       end
     end
 
@@ -18,15 +25,15 @@ class I18n::String
       super
     end
 
+    def to_s(variant = nil)
+      formatted(super(variant || :short), variant || :default)
+    end
+
     protected
 
-      def resolve(subject, variant = nil)
-        format || variant ? formatted(super, variant) : super
-      end
-
       def formatted(subject, variant = nil)
-        options = self.options.merge(:message => subject) # TODO :message is ActiveModel::Error specific
-        format_class.new(format || variant, options).to_s(variant)
+        options = self.options.merge(:message => subject) # TODO :message is ActiveModel::Error specific, isn't it?
+        self.class.format_class.new(format || variant, options).to_s(variant)
       rescue I18n::MissingTranslationData
         subject
       end
