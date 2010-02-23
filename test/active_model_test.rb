@@ -14,7 +14,7 @@ class Model
 end
 
 module ActiveModelValidationStringTestSetup
-  
+
   def setup
     I18n.backend  = CascadingBackend.new
     I18n.backend.send(:init_translations) # so our translations won't be overwritten by Rails
@@ -23,57 +23,57 @@ module ActiveModelValidationStringTestSetup
   def teardown
     I18n.backend  = nil
     Model.reset_callbacks(:validate)
-    
+
   end
 
   def model
     model = Model.new
     model.valid?
     model
-  end  
-    
+  end
+
 end
 
 class LegacyActiveModelValidationStringTest < Test::Unit::TestCase
   include ActiveModelValidationStringTestSetup
-  
+
   class Error < ActiveModel::Error
     include Legacy
   end
-  
+
   def setup
-    super 
+    super
     ActiveModel::Errors.error_class = Error
   end
-  
+
   test "uses a translation from the messages namespace" do
     Model.validates_presence_of :foo
     store_translations(:'errors.messages.blank' => 'message')
     assert_equal "message", model.errors[:foo].first.to_s
-  end  
- 
+  end
+
   test "uses a translation from the messages namespace with a Proc" do
-    Model.validates_presence_of :foo, :message => proc { :foo } 
+    Model.validates_presence_of :foo, :message => proc { :foo }
     store_translations(:'errors.messages.foo' => 'message')
     assert_equal "message", model.errors[:foo].first.to_s
-  end    
-  
+  end
+
   test "uses a translation from a model namespace" do
     Model.validates_presence_of :foo
     store_translations(:'errors.models.model.blank' => 'message')
     assert_equal "message", model.errors[:foo].first.to_s
-  end  
-  
+  end
+
   test "uses a translation from an attribute namespace" do
     Model.validates_presence_of :foo
     store_translations(:'errors.models.model.attributes.foo.blank' => 'message')
     assert_equal "message", model.errors[:foo].first.to_s
-  end  
-  
+  end
+
   test "interpolates validation data to a default message" do
     Model.validates_length_of :foo, :minimum => 1
     assert_equal "is too short (minimum is 1 characters)", model.errors[:foo].first.to_s
-  end  
+  end
 
   test "AttributeErrors supports common methods" do
     store_translations(:'errors.messages.blank' => 'message')
@@ -88,16 +88,16 @@ class LegacyActiveModelValidationStringTest < Test::Unit::TestCase
     assert errors.include?(:blank)
     assert errors.include?("message")
     assert_equal "message", errors.first.to_s
-  end  
-  
+  end
+
   test "errors added directly to AttributeErrors are accesible via Errors" do
     foo = model
     foo.errors[:bar] << :blank
 
     assert_equal 1, foo.errors.size
     assert_equal ['Bar can\'t be blank'], foo.errors.to_a
-  end  
-  
+  end
+
 
 =begin
   test "uses translation message formats from a model namespace" do
@@ -106,8 +106,8 @@ class LegacyActiveModelValidationStringTest < Test::Unit::TestCase
     assert_equal "short", model.errors[:foo].first.to_s
     assert_equal "short", model.errors[:foo].first.to_s(:short)
     assert_equal "full", model.errors[:foo].first.to_s(:full)
-  end  
-  
+  end
+
 
   test "uses translation message formats from an attribute namespace" do
     Model.validates_presence_of :foo
@@ -115,25 +115,25 @@ class LegacyActiveModelValidationStringTest < Test::Unit::TestCase
     assert_equal "short", model.errors[:foo].first.to_s
     assert_equal "short", model.errors[:foo].first.to_s(:short)
     assert_equal "full", model.errors[:foo].first.to_s(:full)
-  end  
+  end
 =end
 
 end
 
 class ActiveModelValidationStringTest < Test::Unit::TestCase
-  
+
   include ActiveModelValidationStringTestSetup
-  
+
   class Error < ActiveModel::Error
     include Cascade, Variants, Formatted
 
     self.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
   end
-  
+
   def setup
-    super 
+    super
     ActiveModel::Errors.error_class = Error
-  end  
+  end
 
   test "uses a class level String message" do
     Model.validates_presence_of :foo, :message => 'message'

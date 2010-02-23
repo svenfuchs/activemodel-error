@@ -46,12 +46,14 @@ class I18n::String
         s % options
       end
 
-      def translate(subject, variant = nil)
-        I18n.t(subject, translate_options)
+      def translate(subject, variant = nil, options = nil)
+        options = translate_options(subject, variant) unless options
+        key = options[:default].is_a?(Array) ? options[:default].shift : subject
+        I18n.t(key, options)
       end
 
-      def translate_options
-        { :raise => true, :scope => scope }.merge(options) #.merge(values)
+      def translate_options(subject, variant = nil)
+        { :default => [subject], :raise => true, :scope => scope }.merge(options)
       end
   end
 end

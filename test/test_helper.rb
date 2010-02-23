@@ -1,3 +1,10 @@
+# FIXME personal load paths
+$:.unshift('~/Development/shared/rails/rails-master/activemodel/lib')
+$:.unshift('~/Development/shared/rails/rails-master/activesupport/lib')
+$:.unshift('~/Projects/Ruby/rails/activemodel/lib')
+$:.unshift('~/Projects/Ruby/rails/activesupport/lib')
+
+
 $:.unshift File.expand_path("../lib", File.dirname(__FILE__))
 $:.unshift(File.expand_path(File.dirname(__FILE__)))
 

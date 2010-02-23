@@ -4,20 +4,22 @@ class I18n::String
   #
   module Variants
     def to_s(variant = :short)
-      resolve(select(variant), variant)
+      resolve(Hash === subject ? subject[variant] : subject, variant)
     end
 
     protected
 
-      def select(variant)
-        Hash === subject ? subject[variant] : subject
-      end
-
       def translate(subject, variant)
-        I18n.t(:"#{subject}.#{variant}", translate_options)
+        super(subject, variant, variant_translate_options(subject, variant))
       rescue I18n::MissingTranslationData => e
-        result = super
-        result.is_a?(::String) ? result : raise(e)
+        super(subject).tap { |result| raise(e) unless result.is_a?(String) }
+      end
+      
+      # uuuuuuurghs.
+      def variant_translate_options(subject, variant)
+        translate_options(subject, variant).tap do |options|
+          options[:default].map! { |key| :"#{key}.#{variant}" } if options[:default].is_a?(Array)
+        end
       end
   end
 end

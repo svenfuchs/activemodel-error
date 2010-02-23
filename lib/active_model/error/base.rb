@@ -1,6 +1,4 @@
-
 class ActiveModel::Error < I18n::String
-  
   module Base
     attr_reader :base, :attribute, :value
 
