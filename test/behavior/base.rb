@@ -1,7 +1,7 @@
 module Behavior
   module Base
     # NOT TRANSLATED
-    
+
     # e.g. validates_presence_of :email, :message => "message"
     test "subject is a String, no format key given" do
       assert_equal 'message', string('message').to_s
@@ -28,9 +28,9 @@ module Behavior
       assert_nothing_raised { string(Proc.new {'foo'}, :foo => 'FOO').to_s }
     end
 
-    
+
     # TRANSLATED
-    
+
     # e.g. validates_presence_of :email / translations :blank => 'No email?'
     test "subject is a Symbol, no format key given, translation is a String" do
       store_translations(:blank => 'No email?')
@@ -52,11 +52,11 @@ module Behavior
       store_translations(:foo => '{{foo}}')
       assert_equal 'FOO', string(:foo, :foo => 'FOO').to_s
     end
-    
+
     test "subject evaluates to a Symbol, translation is a String, interpolates a variable" do
       store_translations(:foo => '{{foo}}')
-      assert_equal 'FOO', string(Proc.new {:foo}, :foo => 'FOO').to_s
-    end  
-    
+      assert_equal 'FOO', string(Proc.new { :foo }, :foo => 'FOO').to_s
+    end
+
   end
 end

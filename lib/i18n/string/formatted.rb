@@ -7,7 +7,7 @@ class I18n::String
     def self.included(base)
       base.class_eval do
         class << self
-          def format_class
+          def format_class # FIXME use inheritable_attribute_accessor
             @format_class ||= Format
           end
 
@@ -31,11 +31,11 @@ class I18n::String
 
     protected
 
-      def formatted(subject, variant = nil)
-        options = self.options.merge(:message => subject) # TODO :message is ActiveModel::Error specific, isn't it?
+      def formatted(string, variant)
+        options = self.options.merge(:message => string) # TODO :message is ActiveModel::Error specific, isn't it?
         self.class.format_class.new(format || variant, options).to_s(variant)
       rescue I18n::MissingTranslationData
-        subject
+        string
       end
   end
 end

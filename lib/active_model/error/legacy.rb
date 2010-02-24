@@ -13,7 +13,7 @@ module ActiveModel
 
         options = @options.merge(
           :scope     => :errors,
-          :default   => defaults.compact,
+          :default   => defaults,
           :model     => base.class.model_name.human,
           :attribute => base.class.human_attribute_name(attribute),
           :value     => value,

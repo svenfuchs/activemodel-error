@@ -14,7 +14,7 @@ class I18n::String
     end
 
     def to_s(variant = nil)
-      resolve(subject, variant)
+      resolve(subject)
     end
 
     def <=>(other)
@@ -23,37 +23,33 @@ class I18n::String
     
     protected
 
-      def resolve(subject, variant = nil)
-        subject = subject.call if subject.respond_to?(:call)
-
-        case subject
+      def resolve(*args)
+        case args.first
+        when Proc
+          resolve(args.shift.call, *args)
         when ::String
-          interpolate(subject, variant)
+          interpolate(*args)
         else
-          translate(subject, variant)
+          translate(*args)
         end
       end
 
-      def interpolate(subject, variant = nil)
-        subject.gsub('{{', '%{') % options # TODO use regex
-      end
-
       INTERPOLATION_SYNTAX_PATTERN = /(\\)?\{\{([^\}]+)\}\}/
-      def interpolate(string, variant = nil)
-        s = string.gsub(INTERPOLATION_SYNTAX_PATTERN) do
+      def interpolate(*args)
+        s = args.first.gsub(INTERPOLATION_SYNTAX_PATTERN) do
           $1 ? "{{#{$2.to_sym}}}" : "%{#{$2.to_sym}}"
         end
         s % options
       end
 
-      def translate(subject, variant = nil, options = nil)
-        options = translate_options(subject, variant) unless options
-        key = options[:default].is_a?(Array) ? options[:default].shift : subject
+      def translate(*args)
+        options = args.last.is_a?(Hash) ? args.pop : translate_options(args.first)
+        key = options[:default].is_a?(Array) ? options[:default].shift : args.first
         I18n.t(key, options)
       end
 
-      def translate_options(subject, variant = nil)
-        { :default => [subject], :raise => true, :scope => scope }.merge(options)
+      def translate_options(*args)
+        { :default => [args.first], :raise => true, :scope => scope }.merge(options)
       end
   end
 end

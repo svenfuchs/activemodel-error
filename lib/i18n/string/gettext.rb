@@ -4,8 +4,8 @@ class I18n::String
   module Gettext
     protected
 
-      def resolve(message, variant)
-        ::String === message ? translate(message, variant) : super
+      def resolve(*args)
+        ::String === args.first ? translate(*args) : super
       end
   end
 end
