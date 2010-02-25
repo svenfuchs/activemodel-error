@@ -19,7 +19,7 @@ Gem::Specification.new do |s|
      "TODO",
      "VERSION",
      "lib/active_model/error.rb",
-     "lib/active_model/messages_patch.rb",
+     "lib/active_model/errors_ext.rb",
      "lib/core_ext/error_comparsion.rb",
      "lib/i18n/string.rb",
      "lib/i18n/string/base.rb",
