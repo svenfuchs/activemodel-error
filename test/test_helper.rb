@@ -10,43 +10,13 @@ $:.unshift(File.expand_path(File.dirname(__FILE__)))
 
 require 'rubygems'
 require 'test/unit'
-require 'behavior'
+require 'test_case_declarative'
 
-require 'i18n/message'
-require 'active_model/errors_ext'
-
-module TestMethod
-  def self.included(base)
-    base.class_eval do
-      def test(name, &block)
-        test_name = "test_#{name.gsub(/\s+/,'_')}".to_sym
-        defined = instance_method(test_name) rescue false
-        raise "#{test_name} is already defined in #{self}" if defined
-        if block_given?
-          define_method(test_name, &block)
-        else
-          define_method(test_name) do
-            flunk "No implementation provided for #{name}"
-          end
-        end
-      end
-    end
-  end
-end
-
-class Module
-  include TestMethod
-end
+require 'active_model_message_translation'
 
 class Test::Unit::TestCase
-  include TestMethod
-
   def teardown
     I18n.backend  = nil
-  end
-  
-  def message(*args)
-    self.class.const_get(:Message).new(*args)
   end
 
   def store_translations(data)

@@ -17,7 +17,7 @@ dirs = %w(
 dirs.each { |dir| $:.unshift "#{dir}/lib", "#{dir}/test" }
 $:.unshift('~/Projects/Ruby/rails/activesupport/lib')
 
-require File.expand_path('../../test_helper', __FILE__)
+require File.expand_path('../test_helper', __FILE__)
 require 'active_model/errors_ext'
 require 'core_ext/error_comparsion'
 

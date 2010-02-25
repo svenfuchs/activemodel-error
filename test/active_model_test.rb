@@ -16,7 +16,7 @@ end
 module ActiveModelValidationMessageTestSetup
 
   def setup
-    I18n.backend  = CascadingBackend.new
+    I18n.backend = CascadingBackend.new
     I18n.backend.send(:init_translations) # so our translations won't be overwritten by Rails
   end
 
