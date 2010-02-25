@@ -8,6 +8,8 @@ class I18n::String
   module Base
     attr_reader :subject, :options, :scope
 
+    attr_reader :subject, :scope, :default, :values
+
     def initialize(subject = nil, options = {})
       @subject, @options = subject, options
       @options ||= {}
@@ -20,36 +22,34 @@ class I18n::String
     def <=>(other)
       to_s <=> other
     end
-    
+
     protected
 
-      def resolve(*args)
-        case args.first
+      def resolve(subject)
+        case subject
         when Proc
-          resolve(args.shift.call, *args)
+          resolve(subject.call)
         when ::String
-          interpolate(*args)
+          interpolate(subject)
         else
-          translate(*args)
+          translate(subject, translate_options(subject))
         end
       end
 
       INTERPOLATION_SYNTAX_PATTERN = /(\\)?\{\{([^\}]+)\}\}/
-      def interpolate(*args)
-        s = args.first.gsub(INTERPOLATION_SYNTAX_PATTERN) do
+      def interpolate(subject)
+        s = subject.gsub(INTERPOLATION_SYNTAX_PATTERN) do
           $1 ? "{{#{$2.to_sym}}}" : "%{#{$2.to_sym}}"
         end
         s % options
       end
 
-      def translate(*args)
-        options = args.last.is_a?(Hash) ? args.pop : translate_options(args.first)
-        key = options[:default].is_a?(Array) ? options[:default].shift : args.first
-        I18n.t(key, options)
+      def translate(subject, options)
+        I18n.t(subject, options.dup)
       end
 
-      def translate_options(*args)
-        { :default => [args.first], :raise => true, :scope => scope }.merge(options)
+      def translate_options(subject)
+        { :scope => scope, :raise => true }.merge(options)
       end
   end
 end

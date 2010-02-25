@@ -6,7 +6,7 @@ $:.unshift('~/Development/shared/rails/rails-master/activesupport/lib')
 $:.unshift('~/Projects/Ruby/rails/activemodel/lib')
 $:.unshift('~/Projects/Ruby/rails/activesupport/lib')
 
-require 'active_model/messages_patch'
+require 'active_model/errors_ext'
 
 class Model
   include ActiveModel::Validations

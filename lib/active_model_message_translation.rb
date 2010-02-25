@@ -1,2 +1,2 @@
 require 'i18n/string'
-require 'active_model/messages_patch'
+require 'active_model/errors_ext'

@@ -3,7 +3,12 @@ module ActiveModel
     module Legacy
     protected
 
-      def translate_options(subject, variant = nil)
+      def translate(subject, options = {})
+        options = translate_options(subject)
+        super(options[:default].shift, options)
+      end
+
+      def translate_options(subject)
         defaults = base.class.lookup_ancestors.map do |klass|
           [ :"models.#{klass.name.underscore}.attributes.#{attribute}.#{subject}",
             :"models.#{klass.name.underscore}.#{subject}" ]

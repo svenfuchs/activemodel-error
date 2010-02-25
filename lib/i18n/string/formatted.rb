@@ -26,14 +26,14 @@ class I18n::String
     end
 
     def to_s(variant = nil)
-      formatted(super(variant || :short), variant || :default)
+      formatted(super(variant), variant || :default)
     end
 
     protected
 
       def formatted(string, variant)
-        options = self.options.merge(:message => string) # TODO :message is ActiveModel::Error specific, isn't it?
-        self.class.format_class.new(format || variant, options).to_s(variant)
+        # TODO :message is ActiveModel::Error specific, isn't it?
+        self.class.format_class.new(format || variant, :message => string).to_s(variant)
       rescue I18n::MissingTranslationData
         string
       end

@@ -28,23 +28,12 @@ module Behavior
       assert_nothing_raised { string(Proc.new {'foo'}, :foo => 'FOO').to_s }
     end
 
-
     # TRANSLATED
 
     # e.g. validates_presence_of :email / translations :blank => 'No email?'
     test "subject is a Symbol, no format key given, translation is a String" do
       store_translations(:blank => 'No email?')
       assert_equal 'No email?', string(:blank).to_s
-    end
-
-    test "subject is a Symbol, format key :short given, translation is a String" do
-      store_translations(:blank => 'No email?')
-      assert_equal 'No email?', string(:blank).to_s(:short)
-    end
-
-    test "subject is a Symbol, format key :full given, translation is a String" do
-      store_translations(:blank => 'No email?')
-      assert_equal 'No email?', string(:blank).to_s(:full)
     end
 
     # INTERPOLATION
