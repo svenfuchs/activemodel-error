@@ -10,6 +10,11 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Sven Fuchs", "Mateo Murphy"]
   s.date = %q{2010-02-25}
+  s.description = %q{Provides I18n support for validation error messages in ActiveModel.
+                      With Rails 3 ActiveModel validation error messages are not backwards
+                      compatible with ActiveRecord 2.3.x. This Gem aims to restore this 
+                      backwards compatiblity and provide a richer feature set and better
+                      implementation compared to ActiveRecord 2.3.x.}
   s.extra_rdoc_files = [
     "README.textile"
   ]
