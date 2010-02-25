@@ -10,11 +10,12 @@ Rake::Task['test'].comment = "Run all tests"
 
 begin
   require 'jeweler'
-  Jeweler::Tasks.new do |gemspec|
-    gemspec.name = "active_model_message_translation"
-    gemspec.summary = "Proposal for validation error messages in ActiveModel"
-    gemspec.homepage = "http://github.com/svenfuchs/active_model_message_translation"
-    gemspec.authors = ["Sven Fuchs", "Mateo Murphy"]
+  Jeweler::Tasks.new do |s|
+    s.name     = "active_model_message_translation"
+    s.summary  = "I18n for validation error messages in ActiveModel"
+    s.homepage = "http://github.com/svenfuchs/active_model_message_translation"
+    s.authors  = ["Sven Fuchs", "Mateo Murphy"]
+    s.files    =  FileList["[A-Z]*", "{lib,test}/**/*"]
   end
 rescue LoadError
   puts "Jeweler not available. Install it with: gem install jeweler"
