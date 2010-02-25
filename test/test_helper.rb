@@ -12,7 +12,7 @@ require 'rubygems'
 require 'test/unit'
 require 'test_case_declarative'
 
-require 'active_model_message_translation'
+require 'activemodel_error'
 
 class Test::Unit::TestCase
   def teardown

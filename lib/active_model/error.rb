@@ -1,4 +1,3 @@
-require 'active_model'
 require 'i18n/message'
 
 module ActiveModel

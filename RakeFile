@@ -11,9 +11,9 @@ Rake::Task['test'].comment = "Run all tests"
 begin
   require 'jeweler'
   Jeweler::Tasks.new do |s|
-    s.name     = "active_model_message_translation"
+    s.name     = "activemodel-error"
     s.summary  = "I18n for validation error messages in ActiveModel"
-    s.homepage = "http://github.com/svenfuchs/active_model_message_translation"
+    s.homepage = "http://github.com/svenfuchs/activemodel-error"
     s.authors  = ["Sven Fuchs", "Mateo Murphy"]
     s.files    =  FileList["[A-Z]*", "{lib,test}/**/*"]
   end
