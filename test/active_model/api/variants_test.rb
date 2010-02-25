@@ -47,9 +47,9 @@ class ActiveModelApiVariantsTest < Test::Unit::TestCase
     assert_equal "full",  error_on(:foo).to_s(:full)
   end
   
-  # given a :message String in class level validation macros
+  # given a :message Message in class level validation macros
 
-  test "variants: given a class level :message Hash of Strings it picks a variant" do
+  test "variants: given a class level :message Hash of Messages it picks a variant" do
     Model.validates_presence_of :foo, :message => { :short => 'short', :full => 'full' }
     assert_equal "short", error_on(:foo).to_s
     assert_equal "short", error_on(:foo).to_s(:short)
@@ -82,11 +82,11 @@ class ActiveModelApiVariantsTest < Test::Unit::TestCase
     assert_equal "full",  error_on(:foo).to_s(:full)
   end
 
-  # given a :message Proc returning a String in class level validation macros
+  # given a :message Proc returning a Message in class level validation macros
 
   # FIXME does not pass
-  #
-  # test "variants: given a class level :message Proc returning a Hash of variant Strings it picks a variant" do
+  # 
+  # test "variants: given a class level :message Proc returning a Hash of variant Messages it picks a variant" do
   #   Model.validates_presence_of :foo, :message => proc { { :short => 'short', :full => 'full' } }
   #   assert_equal "short", error_on(:foo).to_s
   #   assert_equal "short", error_on(:foo).to_s(:short)

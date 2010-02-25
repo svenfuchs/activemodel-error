@@ -7,7 +7,7 @@ class Array
   alias == equals_with_active_model_errors
 end
 
-class String
+class Message
   def equals_with_active_model_error(other)
     other = other.to_s if ActiveModel::Error === other
     equals_without_active_model_error(other)

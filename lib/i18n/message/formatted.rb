@@ -1,6 +1,6 @@
 require 'active_support/core_ext/class/attribute_accessors'
 
-class I18n::String
+class I18n::Message
   # Encapsulates the pattern of wrapping a string with a format string.
   #
   module Formatted

@@ -43,9 +43,9 @@ class ActiveModelApiLookupTest < Test::Unit::TestCase
     assert_equal "message", error_on(:foo).to_s
   end
 
-  # given a :message String in class level validation macros
+  # given a :message Message in class level validation macros
 
-  test "lookup: given a class level :message String it returns the String" do
+  test "lookup: given a class level :message Message it returns the Message" do
     Model.validates_presence_of :foo, :message => 'message'
     assert_equal 'message', error_on(:foo).to_s
   end
@@ -70,9 +70,9 @@ class ActiveModelApiLookupTest < Test::Unit::TestCase
     assert_equal 'translated', error_on(:foo).to_s
   end
 
-  # given a :message Proc returning a String in class level validation macros
+  # given a :message Proc returning a Message in class level validation macros
 
-  test "lookup: given a class level :message Proc returning a String it returns the String" do
+  test "lookup: given a class level :message Proc returning a Message it returns the Message" do
     Model.validates_presence_of :foo, :message => proc { 'message' }
     assert_equal 'message', error_on(:foo).to_s
   end

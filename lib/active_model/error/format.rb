@@ -1,6 +1,6 @@
 module ActiveModel
   class Error
-    class Format < I18n::String::Format
+    class Format < I18n::Message::Format
       protected
 
         def scope

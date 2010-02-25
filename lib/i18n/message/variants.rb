@@ -1,4 +1,4 @@
-class I18n::String
+class I18n::Message
   # Encapsulates the pattern of strings having multiple variations as :short
   # message, :full message etc.
   #

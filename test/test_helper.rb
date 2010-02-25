@@ -12,7 +12,7 @@ require 'rubygems'
 require 'test/unit'
 require 'behavior'
 
-require 'i18n/string'
+require 'i18n/message'
 require 'active_model/errors_ext'
 
 module TestMethod
@@ -45,8 +45,8 @@ class Test::Unit::TestCase
     I18n.backend  = nil
   end
   
-  def string(*args)
-    self.class.const_get(:String).new(*args)
+  def message(*args)
+    self.class.const_get(:Message).new(*args)
   end
 
   def store_translations(data)

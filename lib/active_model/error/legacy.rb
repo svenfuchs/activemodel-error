@@ -1,5 +1,5 @@
 module ActiveModel
-  class Error < I18n::String
+  class Error < I18n::Message
     module Legacy
     protected
 

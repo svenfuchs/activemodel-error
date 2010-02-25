@@ -29,7 +29,7 @@ class ActiveModelApiInterpolationTest < Test::Unit::TestCase
     assert_equal '1', error_on(:foo).to_s
   end
 
-  test "interpolation: given a class level :message String it interpolates validation data to the String" do
+  test "interpolation: given a class level :message Message it interpolates validation data to the Message" do
     Model.validates_length_of :foo, :minimum => 1, :message => '%{count}'
     assert_equal '1', error_on(:foo).to_s
   end
@@ -40,7 +40,7 @@ class ActiveModelApiInterpolationTest < Test::Unit::TestCase
     assert_equal '1', error_on(:foo).to_s
   end
 
-  test "interpolation: given a class level :message Proc returning a String it interpolates validation data to the String" do
+  test "interpolation: given a class level :message Proc returning a Message it interpolates validation data to the Message" do
     Model.validates_length_of :foo, :minimum => 1, :message => proc { '%{count}' }
     assert_equal '1', error_on(:foo).to_s
   end

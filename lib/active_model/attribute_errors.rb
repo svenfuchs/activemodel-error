@@ -23,9 +23,10 @@ module ActiveModel
     end
 
     def include?(message)
-      if message.is_a?(Symbol)
+      case message
+      when Symbol
         @errors.any? { |error| error.subject == message }
-      elsif message.is_a?(String)
+      when String
         @errors.any? { |error| error.to_s == message }
       else
         @errors.include?(message)

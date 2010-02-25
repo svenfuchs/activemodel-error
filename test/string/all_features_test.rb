@@ -2,11 +2,11 @@
 require File.expand_path(File.dirname(__FILE__) + '/../test_helper')
 
 class AllFeaturesTest < Test::Unit::TestCase
-  class Format < I18n::String::Format
-    include I18n::String::Variants
+  class Format < I18n::Message::Format
+    include I18n::Message::Variants
   end
 
-  class String < I18n::String
+  class Message < I18n::Message
     include Cascade
     include Variants
     include Formatted
@@ -16,7 +16,7 @@ class AllFeaturesTest < Test::Unit::TestCase
 
   def setup
     I18n.backend  = CascadingBackend.new
-    String.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
+    Message.cascade_options = { :step => 2, :skip_root => false, :scopes => [:model, :attribute] }
   end
   
   include Behavior::Base

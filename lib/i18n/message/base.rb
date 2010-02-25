@@ -1,7 +1,7 @@
-class I18n::String
+class I18n::Message
   # Encapsulates the patterns of:
   #
-  #   * using a plain String (as in validates_presence_of :email, :message => "can't be blank")
+  #   * using a plain Message (as in validates_presence_of :email, :message => "can't be blank")
   #   * translating a Symbol (as in validates_presence_of :email, :message => :blank)
   #   * interpolating given values to the resulting string.
   #
@@ -29,7 +29,7 @@ class I18n::String
         case subject
         when Proc
           resolve(subject.call)
-        when ::String
+        when String
           interpolate(subject)
         else
           translate(subject, translate_options(subject))

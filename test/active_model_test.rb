@@ -13,7 +13,7 @@ class Model
   attr_reader :foo
 end
 
-module ActiveModelValidationStringTestSetup
+module ActiveModelValidationMessageTestSetup
 
   def setup
     I18n.backend  = CascadingBackend.new
@@ -34,8 +34,8 @@ module ActiveModelValidationStringTestSetup
 
 end
 
-class LegacyActiveModelValidationStringTest < Test::Unit::TestCase
-  include ActiveModelValidationStringTestSetup
+class LegacyActiveModelValidationMessageTest < Test::Unit::TestCase
+  include ActiveModelValidationMessageTestSetup
 
   class Error < ActiveModel::Error
     include Legacy
@@ -120,9 +120,9 @@ class LegacyActiveModelValidationStringTest < Test::Unit::TestCase
 
 end
 
-class ActiveModelValidationStringTest < Test::Unit::TestCase
+class ActiveModelValidationMessageTest < Test::Unit::TestCase
 
-  include ActiveModelValidationStringTestSetup
+  include ActiveModelValidationMessageTestSetup
 
   class Error < ActiveModel::Error
     include Cascade, Variants, Formatted
@@ -135,7 +135,7 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
     ActiveModel::Errors.error_class = Error
   end
 
-  test "uses a class level String message" do
+  test "uses a class level Message message" do
     Model.validates_presence_of :foo, :message => 'message'
     assert_equal "message", model.errors[:foo].first.to_s
   end
@@ -145,7 +145,7 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
     assert_equal "message", model.errors[:foo].first.to_s
   end
 
-  test "uses class level String message formats" do
+  test "uses class level Message message formats" do
     Model.validates_presence_of :foo, :message => { :short => 'short', :full => 'full'}
     assert_equal "short", model.errors[:foo].first.to_s
     assert_equal "short", model.errors[:foo].first.to_s(:short)
@@ -162,7 +162,7 @@ class ActiveModelValidationStringTest < Test::Unit::TestCase
   end
 =end
 
-  test "interpolates validation data to a class level String message" do
+  test "interpolates validation data to a class level Message message" do
     Model.validates_length_of :foo, :minimum => 1, :message => '%{count}'
     assert_equal "1", model.errors[:foo].first.to_s
   end

@@ -2,7 +2,7 @@ require 'active_support/core_ext/class/attribute_accessors'
 require 'active_support/inflector'
 require 'active_support/core_ext/string/inflections'
 
-class I18n::String
+class I18n::Message
   # Encapsulates the pattern of looking up a translation key from several
   # scopes.
   #
